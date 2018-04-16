@@ -8,7 +8,7 @@ jobs:
     docker:
       - image: python:3.6-alpine
         environment:
-        FLASK_APP: flask.py
+        FLASK_APP: flasky.py
         SECRET_KEY: 3128b4588e7f4305b5501025c13ceca5
         FLASK_CONFIG: testing
         DATABASE_URL: mysql+pymysql://flasky:p@ssw0rd@dbserver/flasky
@@ -35,7 +35,7 @@ jobs:
           name: install dependencies
           command: |
             python -m venv venv
-            venv/bin/pip install -r requirements/dev.txt
+            venv/bin/pip install -r requirements/docker.txt
       - run:
           name: deploy 
           command: |
