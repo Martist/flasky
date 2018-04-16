@@ -7,18 +7,7 @@ jobs:
   build:
     docker:
       - image: python:3.6-alpine
-      #  environment:
-      #    FLASK_APP: $FLASK_APP
-      #    FLASK_CONFIG: testing
-      #  SECRET_KEY: 3128b4588e7f4305b5501025c13ceca5
-      #  FLASK_CONFIG: testing
-      #- image: mysql/mysql-server:5.7
-      #  environment: 
-      #  MYSQL_RANDOM_ROOT_PASSWORD: yes
-      #  MYSQL_DATABASE: flasky
-      #  MYSQL_USER: flasky
-      #  MYSQL_PASSWORD: p@ssw0rd 
-      
+       
     working_directory: ~/repo
 
     steps:
@@ -32,12 +21,12 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install Dependencies
           command: |
             python -m venv venv
             venv/bin/pip install -r requirements/docker.txt
       - run:
-          name: deploy 
+          name: Deploy 
           command: |
             source venv/bin/activate
             export FLASK_APP=flasky.py
@@ -48,7 +37,7 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements/docker.txt" }}
 
       - run:
-          name: run tests
+          name: Run Tests
           command: |
             source venv/bin/activate
             export FLASK_APP=flasky.py
