@@ -58,7 +58,7 @@ jobs:
           name: run tests
           command: |
             source venv/bin/activate
-            # export FLASK_APP=flasky.py
+            export FLASK_APP=flasky.py
             flask test --coverage
 
       - store_artifacts:
