@@ -25,11 +25,11 @@ jobs:
       - checkout
       - run: mkdir test-reports
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements/docker.txt" }}
+      #- restore_cache:
+      #    keys:
+      #    - v1-dependencies-{{ checksum "requirements/docker.txt" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      #    - v1-dependencies-
 
       - run:
           name: install dependencies
