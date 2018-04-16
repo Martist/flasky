@@ -41,14 +41,7 @@ jobs:
           command: |
             source venv/bin/activate
             export FLASK_APP=flasky.py
-            while true; do
-              flask deploy
-              if [[ "$?" == "0" ]]; then
-                break
-              fi
-              echo Deploy command failed, retrying in 5 secs...
-              sleep 5
-            done
+            flask deploy
       - save_cache:
           paths:
             - ./venv
