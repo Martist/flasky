@@ -12,12 +12,12 @@ jobs:
         SECRET_KEY: 3128b4588e7f4305b5501025c13ceca5
         FLASK_CONFIG: testing
         DATABASE_URL: mysql+pymysql://flasky:p@ssw0rd@dbserver/flasky
-      - image: mysql/mysql-server:5.7
-        environment: 
-        MYSQL_RANDOM_ROOT_PASSWORD: yes
-        MYSQL_DATABASE: flasky
-        MYSQL_USER: flasky
-        MYSQL_PASSWORD: p@ssw0rd 
+      #- image: mysql/mysql-server:5.7
+      #  environment: 
+      #  MYSQL_RANDOM_ROOT_PASSWORD: yes
+      #  MYSQL_DATABASE: flasky
+      #  MYSQL_USER: flasky
+      #  MYSQL_PASSWORD: p@ssw0rd 
       
     working_directory: ~/repo
 
