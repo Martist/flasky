@@ -9,7 +9,7 @@ jobs:
       - image: python:3.6-alpine
         environment:
           FLASK_APP: $FLASK_APP
-          FLASK_CONFIG: $FLASK_CONFIG
+          FLASK_CONFIG: testing
       #  SECRET_KEY: 3128b4588e7f4305b5501025c13ceca5
       #  FLASK_CONFIG: testing
       #- image: mysql/mysql-server:5.7
