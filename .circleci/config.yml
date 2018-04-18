@@ -17,7 +17,7 @@ jobs:
           paths: ./
 
       - run: mkdir test-reports
-      # Download and cache dependencies
+      # Download and cache dependencies.
       - restore_cache:
           keys:
           - deps1-{{ .Branch }}-{{ checksum "requirements/docker.txt" }}
@@ -29,7 +29,7 @@ jobs:
             python -m venv venv
             venv/bin/pip install -r requirements/docker.txt
       - run:
-          name: Deploy 
+          name: Deploy
           command: |
             source venv/bin/activate
             export FLASK_APP=flasky.py
