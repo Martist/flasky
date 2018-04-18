@@ -61,7 +61,7 @@ jobs:
       - run: 
           command: |
             TAG=1.0.$CIRCLE_BUILD_NUM
-            docker build -t mars93/dp-flasky:$TAG
+            docker build -t mars93/dp-flasky:$TAG .
             docker push mars93/dp-flasky:$TAG
 workflows:
   version: 2
