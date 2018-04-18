@@ -2,14 +2,14 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
-
-  
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/python:3.6.2-stretch-browsers
 version: 2
 jobs:
   build_and_test:
-    working_directory: ~/repo
-    docker:
-    - image: circleci/python:3.6.2-stretch-browsers
+    <<: *defaults
     steps:
       - checkout
       - persist_to_workspace:
@@ -50,21 +50,21 @@ jobs:
       - store_test_results:
           path: test-reports/
   build_docker_image:
-    working_directory: ~/repo
-    docker:
-    - image: circleci/python:3.6.2-stretch-browsers
+    <<: *defaults
       steps:
         - setup_remote_docker:
             docker_layer_caching: true 
         - attach_workspace:
             at: /repo
         - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-        - run: |
-          TAG=1.0.$CIRCLE_BUILD_NUM
-          docker build -t dp-flasky:$TAG
-          docker push mars93/dp-flasky:$TAG
+        - run: 
+            command: |
+              TAG=1.0.$CIRCLE_BUILD_NUM
+              docker build -t dp-flasky:$TAG
+              docker push mars93/dp-flasky:$TAG
 workflows:
   version: 2
+
   deploy_to_staging:
     jobs:
       - build_and_test
