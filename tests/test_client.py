@@ -45,8 +45,8 @@ class FlaskClientTestCase(unittest.TestCase):
                 as_text=True))
 
         # send a confirmation token
-        #user = User.query.filter_by(email='john@example.com').first()
-        #token = user.generate_confirmation_token()
+        user = User.query.filter_by(email='john@example.com').first()
+        token = user.generate_confirmation_token()
         response = self.client.get('/auth/confirm/{}'.format(token),
                                    follow_redirects=True)
         user.confirm(token)
