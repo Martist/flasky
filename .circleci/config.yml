@@ -2,16 +2,20 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/python:3.6.2-stretch-browsers
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.6.2-stretch-browsers
-       
-    working_directory: ~/repo
-
+  build_and_test:
+    <<: *defaults
     steps:
       - checkout
+      - persist_to_workspace:
+          root: ./
+          paths: ./
+
       - run: mkdir test-reports
       # Download and cache dependencies
       - restore_cache:
@@ -19,7 +23,6 @@ jobs:
           - deps1-{{ .Branch }}-{{ checksum "requirements/docker.txt" }}
            fallback to using the latest cache if no exact match is found
           - deps1-{{ .Branch }}-
-
       - run:
           name: Install Dependencies
           command: |
@@ -35,17 +38,28 @@ jobs:
           paths:
             - ./venv
           key: deps1-{{ .Branch }}-{{ checksum "requirements/docker.txt" }}
-
       - run:
           name: Run Tests
           command: |
             source venv/bin/activate
             export FLASK_APP=flasky.py
             flask test --coverage
-
       - store_artifacts:
           path: test-reports/
           destination: tr1
       - store_test_results:
           path: test-reports/
+  build_docker_image:
+    <<: *defaults
+      steps:
+        - setup_remote_docker:
+            docker_layer_caching: true 
+        - attach_workspace:
+            at: /repo
+        - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - run: |
+          TAG=1.0.$CIRCLE_BUILD_NUM
+          docker build -t dp-flasky:$TAG
+          docker push mars93/dp-flasky:$TAG
+
           

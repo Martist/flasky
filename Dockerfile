@@ -1,7 +1,7 @@
 FROM python:3.6-alpine
 
 ENV FLASK_APP flasky.py
-ENV FLASK_CONFIG testing
+ENV FLASK_CONFIG production
 
 RUN mkdir /home/flasky
 WORKDIR /home/flasky
@@ -12,7 +12,6 @@ RUN venv/bin/pip install -r requirements/docker.txt
 
 COPY app app
 COPY migrations migrations
-COPY tests test
 COPY flasky.py config.py boot.sh ./
 
 # run-time configuration
