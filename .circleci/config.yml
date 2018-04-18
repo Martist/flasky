@@ -2,14 +2,14 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/python:3.6.2-stretch-browsers
+
+  
 version: 2
 jobs:
   build_and_test:
-    <<: *defaults
+    working_directory: ~/repo
+    docker:
+    - image: circleci/python:3.6.2-stretch-browsers
     steps:
       - checkout
       - persist_to_workspace:
@@ -50,7 +50,9 @@ jobs:
       - store_test_results:
           path: test-reports/
   build_docker_image:
-    <<: *defaults
+    working_directory: ~/repo
+    docker:
+    - image: circleci/python:3.6.2-stretch-browsers
       steps:
         - setup_remote_docker:
             docker_layer_caching: true 
