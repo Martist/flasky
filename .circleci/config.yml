@@ -63,7 +63,6 @@ jobs:
           docker push mars93/dp-flasky:$TAG
 workflows:
   version: 2
-
   deploy_to_staging:
     jobs:
       - build_and_test
