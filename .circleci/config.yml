@@ -61,24 +61,26 @@ jobs:
       - attach_workspace:
           at: ./
       - run: 
-        name: Store gcloud Service Account
-        command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+          name: Store gcloud Service Account
+          command: |
+            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
       - run: 
-        name: Configure gcloud
-        command: |
-          gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-          gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
-          gcloud --quiet auth configure-docker
+          name: Configure gcloud
+          command: |
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+            gcloud --quiet auth configure-docker
       - run: 
-        name: Build and push the Docker Image to gcloud
-        command: |
-          docker build -t eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1 .
-          docker push eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
+          name: Build and push the Docker Image to gcloud
+          command: |
+            docker build -t eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1 .
+            docker push eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
       - run:
-        name: Update the default image for gcloud Deployment
-        command: kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
+          name: Update the default image for gcloud Deployment
+          command: |
+            kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
   deploy_to_gcloud:
     working_directoty: ~/repo
     docker:
