@@ -71,12 +71,11 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
           gcloud --quiet auth configure-docker
-
       - run: 
         name: Build and push the Docker Image to gcloud
-          command: |
-            docker build -t eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1 .
-            docker push eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
+        command: |
+          docker build -t eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1 .
+          docker push eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
       - run:
         name: Update the default image for gcloud Deployment
         command: kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=eu.gcr.io/${GOOGLE_PROJECT_ID}/flasky:$CIRCLE_SHA1
