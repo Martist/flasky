@@ -44,3 +44,7 @@ venv
 # Environment files
 .env
 .env-mysql
+
+# Development related support files
+/zSupportFiles
+.vscode
